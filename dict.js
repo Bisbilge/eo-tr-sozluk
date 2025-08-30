@@ -3,7 +3,7 @@ const CSV_URL = 'data.csv';
 const qs = (s,el=document)=>el.querySelector(s);
 const qsa = (s,el=document)=>[...el.querySelectorAll(s)];
 
-// Simple CSV parser supporting quoted fields
+// Simple CSV parser (quoted fields supported)
 function parseCSV(text){
   const rows=[];let row=[],cell='',inQuotes=false;
   for(let i=0;i<text.length;i++){
