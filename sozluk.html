@@ -9,9 +9,11 @@
 </head>
 <body>
   <header class="header">
-    <div class="header-inner container">
+    <div class="header-inner">
       <a class="brand" href="index.html">
-        <img src="logo.png" alt="Gsu Esperanto Klubo logosu" onerror="this.style.display='none'">
+        <span class="badge">
+          <img src="logo.png" alt="" onerror="this.remove();this.closest('.badge').insertAdjacentHTML('afterbegin','<span class=star></span>')">
+        </span>
         <span class="title">Gsu Esperanto Klubo</span>
       </a>
       <nav class="nav">
@@ -38,7 +40,7 @@
           <tbody id="bodyRows"></tbody>
         </table>
       </div>
-      <div class="section small" id="dict-help">
+      <div class="pad small" id="dict-help">
         CSV sırası: <em>eo, tr, sözcük_türü, örnek_eo, örnek_tr</em>. Aynı klasördeki <code>data.csv</code> dosyası yüklenir.
       </div>
     </section>
