@@ -1,183 +1,52 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Esperanto–Türkçe Sözlük</title>
-  <style>
-    :root{
-      --border:#e5e7eb;
-      --muted:#6b7280;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, sans-serif;
-      line-height:1.55;
-      background:#f8fafc;
-      color:#0f172a;
-      padding:24px;
-    }
-    .wrap{max-width:1000px;margin:auto;}
-    header{margin-bottom:18px;}
-    h1{font-size:1.6rem;font-weight:600;letter-spacing:-0.01em;}
-    .card{
-      background:#fff;
-      border:1px solid var(--border);
-      border-radius:12px;
-      box-shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
-      overflow:hidden;
-    }
-    .controls{
-      display:flex;flex-wrap:wrap;gap:10px;align-items:center;
-      padding:12px;border-bottom:1px solid var(--border);
-      position:sticky;top:0;background:#fff;z-index:2;
-    }
-    .field{
-      display:flex;align-items:center;gap:8px;
-      background:#f8fafc;border:1px solid var(--border);
-      padding:8px 10px;border-radius:8px;flex:1;
-    }
-    .field input{
-      border:0;outline:0;background:transparent;
-      font-size:0.95rem;width:100%;
-    }
-    .counter{margin-left:auto;color:var(--muted);font-size:.9rem}
-    .table-wrap{overflow:auto;max-height:70vh}
-    table{width:100%;border-collapse:collapse;font-size:0.95rem}
-    thead th{
-      position:sticky;top:52px;z-index:1;
-      background:#fff;border-bottom:1px solid var(--border);
-      text-align:left;padding:10px;white-space:nowrap;
-      cursor:pointer;user-select:none;
-    }
-    thead th .sort{font-size:.85rem;color:var(--muted);margin-left:6px;}
-    tbody td{padding:10px;border-top:1px solid #f1f5f9;vertical-align:top}
-    tbody tr:nth-child(odd) td{background:#fafafa}
-    mark{background:#fde68a;color:inherit;padding:0 .15em;border-radius:3px}
-  </style>
+  <title>Gsu Esperanto Kulubo</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header><h1>Esperanto–Türkçe Sözlük</h1></header>
+  <header class="header">
+    <div class="header-inner container">
+      <a class="brand" href="index.html">
+        <img src="logo.png" alt="Gsu Esperanto Kulubo logosu" onerror="this.style.display='none'">
+        <span class="title">Gsu Esperanto Kulubo</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html" class="active">Anasayfa</a>
+        <a href="sozluk.html">Sözlük</a>
+        <a href="gramer.html">Gramer</a>
+      </nav>
+    </div>
+  </header>
 
-    <section class="card">
-      <div class="controls">
-        <label class="field">
-          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M21 20.3L16.7 16a7.5 7.5 0 10-.7.7L20.3 21zM10.5 17a6.5 6.5 0 110-13 6.5 6.5 0 010 13z"/></svg>
-          <input id="q" type="search" placeholder="Ara..." autocomplete="off" />
-        </label>
-        <div class="counter" id="counter">0 kayıt</div>
-      </div>
-
-      <div class="table-wrap">
-        <table id="dict">
-          <thead><tr id="headRow"></tr></thead>
-          <tbody id="bodyRows"></tbody>
-        </table>
-      </div>
+  <main class="container">
+    <section class="card hero">
+      <h1>Saluton! / Merhaba!</h1>
+      <p>Gsu Esperanto Kulubo’nun resmi sayfasına hoş geldiniz. Burada kulüp duyurularını, kaynakları ve hazırladığımız <strong>Esperanto–Türkçe sözlüğü</strong> bulabilirsiniz.</p>
     </section>
-  </div>
 
-  <script>
-    const qs = (s,el=document)=>el.querySelector(s);
-    const qsa = (s,el=document)=>[...el.querySelectorAll(s)];
-    const CSV_URL = 'data.csv';
+    <section class="card section">
+      <h2>Başlarken</h2>
+      <p class="small">Hızlı bağlantılar:</p>
+      <ul>
+        <li><a href="sozluk.html"><strong>Esperanto–Türkçe Sözlük</strong></a> — arama, sıralama, filtreleme.</li>
+        <li><a href="gramer.html"><strong>Gramer notları</strong></a> — temel kurallar ve kısa özetler.</li>
+      </ul>
+    </section>
 
-    function parseCSV(text){
-      const rows=[];let row=[],cell='',inQuotes=false;
-      for(let i=0;i<text.length;i++){
-        const c=text[i],n=text[i+1];
-        if(inQuotes){
-          if(c==='"'&&n==='"'){cell+='"';i++;}
-          else if(c==='"'){inQuotes=false;}
-          else{cell+=c;}
-        }else{
-          if(c==='"'){inQuotes=true;}
-          else if(c===','){row.push(cell);cell='';}
-          else if(c==='\n'){row.push(cell);rows.push(row);row=[];cell='';}
-          else if(c==='\r'){}
-          else{cell+=c;}
-        }
-      }
-      if(cell.length||row.length){row.push(cell);rows.push(row);}
-      const headers=rows.shift()||[];
-      return {headers,rows};
-    }
+    <section class="card section">
+      <h2>Kulüp hakkında</h2>
+      <p>Gsu Esperanto Kulubo, öğrenciler tarafından yürütülen gönüllü bir topluluktur. Amacımız, Esperanto’nun kültürünü tanıtmak, yeni öğrenenlere destek olmak ve Türkçe kaynaklar üretmektir.</p>
+    </section>
+  </main>
 
-    function highlight(text,q){
-      if(!q)return text;
-      const esc=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-      return text.replace(new RegExp(esc,'gi'),m=>`<mark>${m}</mark>`);
-    }
+  <footer class="footer">
+    © <span id="yil"></span> Gsu Esperanto Kulubo • gsuesperanto.org
+  </footer>
 
-    let state={headers:[],rows:[],filtered:[],sortKey:null,sortDir:1};
-
-    function renderHead(){
-      const head=qs('#headRow');head.innerHTML='';
-      state.headers.forEach((h,i)=>{
-        const th=document.createElement('th');
-        th.innerHTML=`<span>${h}</span> <span class="sort">↕</span>`;
-        th.onclick=()=>sortBy(i);
-        head.appendChild(th);
-      });
-    }
-
-    function renderBody(){
-      const tb=qs('#bodyRows');
-      const q=qs('#q').value.trim();
-      tb.innerHTML='';
-      const frag=document.createDocumentFragment();
-      state.filtered.forEach(r=>{
-        const tr=document.createElement('tr');
-        r.forEach(c=>{
-          const td=document.createElement('td');
-          td.innerHTML=highlight(String(c??''),q);
-          tr.appendChild(td);
-        });
-        frag.appendChild(tr);
-      });
-      tb.appendChild(frag);
-      qs('#counter').textContent=`${state.filtered.length} kayıt`;
-    }
-
-    function applyFilter(){
-      const q=qs('#q').value.toLowerCase().trim();
-      state.filtered = !q ? [...state.rows] :
-        state.rows.filter(r=>r.some(c=>String(c).toLowerCase().includes(q)));
-      if(state.sortKey!=null){sortBy(state.sortKey,true);}
-      renderBody();
-    }
-
-    function sortBy(i,keep=false){
-      if(!keep){
-        state.sortDir = (state.sortKey===i? -state.sortDir:1);
-        state.sortKey=i;
-      }
-      state.filtered.sort((a,b)=>{
-        const A=String(a[i]??'').toLowerCase();
-        const B=String(b[i]??'').toLowerCase();
-        return state.sortDir*((A>B)-(A<B));
-      });
-      qsa('thead th .sort').forEach((el,j)=>{
-        el.textContent=j===i?(state.sortDir===1?'↑':'↓'):'↕';
-      });
-      renderBody();
-    }
-
-    (async()=>{
-      try{
-        const text=(await fetch(CSV_URL)).text?await(await fetch(CSV_URL)).text():''; 
-        const parsed=parseCSV(text.replace(/^\uFEFF/,''));
-        state.headers=parsed.headers;
-        state.rows=parsed.rows;
-        state.filtered=[...state.rows];
-        renderHead();
-        renderBody();
-      }catch(e){
-        qs('#bodyRows').innerHTML=`<tr><td>Hata: ${e.message}</td></tr>`;
-      }
-    })();
-    qs('#q').addEventListener('input',()=>applyFilter());
-  </script>
+  <script>document.getElementById('yil').textContent = new Date().getFullYear();</script>
 </body>
 </html>
