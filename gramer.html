@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gramer • Gsu Esperanto Kulubo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner container">
+      <a class="brand" href="index.html">
+        <img src="logo.png" alt="Gsu Esperanto Kulubo logosu" onerror="this.style.display='none'">
+        <span class="title">Gsu Esperanto Kulubo</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Anasayfa</a>
+        <a href="sozluk.html">Sözlük</a>
+        <a href="gramer.html" class="active">Gramer</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card section">
+      <h1>Temel Kurallar</h1>
+      <p class="small">Kısa bir özet—içeriği zamanla genişletebilirsiniz.</p>
+      <h2>Alfabe</h2>
+      <p>Esperanto alfabesi 28 harften oluşur: a b c ĉ d e f g ĝ h ĥ i j ĵ k l m n o p r s ŝ t u ŭ v z. Türkçe klavye için geçici yazımlar: ĉ→cx, ĝ→gx, ĥ→hx, ĵ→jx, ŝ→sx, ŭ→ux.</p>
+      <h2>İsimler</h2>
+      <p>İsimler <strong>-o</strong> ile biter. Çoğul eki <strong>-j</strong>, belirtme durumu eki <strong>-n</strong>.</p>
+      <p><em>amiko</em> (arkadaş), <em>amikoj</em> (arkadaşlar), <em>amikon</em> (arkadaşı).</p>
+      <h2>Sıfatlar</h2>
+      <p>Sıfatlar <strong>-a</strong> ile biter; niteledikleri ismin çokluk ve -n hâline uyar: <em>bela domo</em>, <em>belaj domoj</em>, <em>belan domon</em>.</p>
+      <h2>Fiiller</h2>
+      <ul>
+        <li>Şimdiki: <strong>-as</strong> — <em>mi iras</em> (gidiyorum)</li>
+        <li>Geçmiş: <strong>-is</strong> — <em>mi iris</em> (gittim)</li>
+        <li>Gelecek: <strong>-os</strong> — <em>mi iros</em> (gideceğim)</li>
+        <li>Emir/istek: <strong>-u</strong> — <em>iru!</em> (git!)</li>
+        <li>Mastar: <strong>-i</strong> — <em>iri</em> (gitmek)</li>
+      </ul>
+      <h2>Zamirler</h2>
+      <p>mi, vi, li, ŝi, ĝi, ni, ili; iyelik için <strong>-a</strong>: <em>mia, via, lia...</em></p>
+      <h2>Örnek cümle</h2>
+      <p><em>Hodiaŭ mi lernos Esperanton kun amikoj.</em></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © <span id="yil"></span> Gsu Esperanto Kulubo • gsuesperanto.org
+  </footer>
+
+  <script>document.getElementById('yil').textContent = new Date().getFullYear();</script>
+</body>
+</html>
