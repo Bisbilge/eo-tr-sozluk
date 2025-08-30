@@ -5,9 +5,9 @@
   --bg:#f1f5f9;
   --fg:#0f172a;
   --card:#ffffff;
-  --accent:#10b981; /* emerald-500 */
-  --accent-700:#059669;
-  --accent-50:#ecfdf5;
+  --accent:#009900;      /* senin istediğin yeşil */
+  --accent-700:#007700;  /* daha koyu tonu */
+  --accent-50:#f0fff0;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
