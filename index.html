@@ -4,282 +4,180 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Esperanto–Türkçe Sözlük</title>
-  <meta name="description" content="Esperanto–Türkçe küçük sözlük: CSV dosyasından yüklenir, arama ve sıralama destekler.">
   <style>
     :root{
-      --gap:14px;
-      --radius:12px;
       --border:#e5e7eb;
-      --bg:#0b0c0f;
-      --card:#ffffff;
       --muted:#6b7280;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
+    *{box-sizing:border-box;margin:0;padding:0}
     body{
-      margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, sans-serif;
       line-height:1.55;
-      background:linear-gradient(180deg,#f8fafc 0%,#eef2f7 100%);
+      background:#f8fafc;
       color:#0f172a;
-      padding:clamp(16px,2.5vw,32px);
+      padding:24px;
     }
-    .wrap{
-      max-width:1000px;
-      margin-inline:auto;
-    }
-    header{
-      display:flex;
-      gap:16px;
-      align-items:flex-start;
-      justify-content:space-between;
-      margin-bottom:18px;
-    }
-    h1{
-      margin:0;
-      font-size:clamp(20px,2.2vw,28px);
-      letter-spacing:-0.01em;
-    }
-    .muted{color:var(--muted); font-size:.95rem}
+    .wrap{max-width:1000px;margin:auto;}
+    header{margin-bottom:18px;}
+    h1{font-size:1.6rem;font-weight:600;letter-spacing:-0.01em;}
     .card{
-      background:var(--card);
+      background:#fff;
       border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:0 1px 2px rgba(0,0,0,.04), 0 10px 30px rgba(2,6,23,.06);
+      border-radius:12px;
+      box-shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
       overflow:hidden;
     }
-
-    /* Kontroller */
     .controls{
-      display:flex; flex-wrap:wrap; gap:10px; align-items:center;
-      padding:12px 12px; border-bottom:1px solid var(--border);
-      position:sticky; top:0; background:#fff; z-index:2;
+      display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+      padding:12px;border-bottom:1px solid var(--border);
+      position:sticky;top:0;background:#fff;z-index:2;
     }
     .field{
-      display:flex; align-items:center; gap:8px;
-      background:#f8fafc; border:1px solid var(--border);
-      padding:8px 10px; border-radius:10px; min-width:240px;
+      display:flex;align-items:center;gap:8px;
+      background:#f8fafc;border:1px solid var(--border);
+      padding:8px 10px;border-radius:8px;flex:1;
     }
     .field input{
-      border:0; outline:0; background:transparent; width:220px;
-      font-size:0.95rem;
+      border:0;outline:0;background:transparent;
+      font-size:0.95rem;width:100%;
     }
-    .counter{margin-left:auto; color:var(--muted); font-size:.9rem}
-    .badge{
-      display:inline-block; padding:2px 8px; border:1px solid var(--border);
-      border-radius:999px; font-size:.8rem; color:#475569; background:#f8fafc;
-    }
-
-    /* Tablo */
-    .table-wrap{ overflow:auto; max-height:70vh }
-    table{ width:100%; border-collapse:collapse; font-size:0.95rem }
+    .counter{margin-left:auto;color:var(--muted);font-size:.9rem}
+    .table-wrap{overflow:auto;max-height:70vh}
+    table{width:100%;border-collapse:collapse;font-size:0.95rem}
     thead th{
-      position:sticky; top:54px; z-index:1;
-      background:#fff; border-bottom:1px solid var(--border);
-      text-align:left; padding:10px 12px; white-space:nowrap; user-select:none;
-      cursor:pointer;
+      position:sticky;top:52px;z-index:1;
+      background:#fff;border-bottom:1px solid var(--border);
+      text-align:left;padding:10px;white-space:nowrap;
+      cursor:pointer;user-select:none;
     }
-    thead th .sort{
-      font-size:.85rem; color:var(--muted); margin-left:6px;
-    }
-    tbody td{ padding:10px 12px; border-top:1px solid #f1f5f9; vertical-align:top }
-    tbody tr:nth-child(odd) td{ background:#fcfdff }
-    mark{
-      background:#fde68a; color:inherit; padding:0 .15em; border-radius:4px;
-    }
-    footer{ margin-top:14px; color:var(--muted); font-size:.92rem }
-
-    /* Küçük ekranlar */
-    @media (max-width:640px){
-      thead th, tbody td{ padding:9px 10px }
-      .field{min-width:0; flex:1}
-      .counter{flex-basis:100%; margin-left:0}
-      .table-wrap{ max-height:65vh }
-    }
+    thead th .sort{font-size:.85rem;color:var(--muted);margin-left:6px;}
+    tbody td{padding:10px;border-top:1px solid #f1f5f9;vertical-align:top}
+    tbody tr:nth-child(odd) td{background:#fafafa}
+    mark{background:#fde68a;color:inherit;padding:0 .15em;border-radius:3px}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <div>
-        <h1>Esperanto–Türkçe Sözlük</h1>
-        <div class="muted">CSV’den yüklenir · Arama ve sıralama destekli</div>
-      </div>
-      <div class="badge" id="status-badge" aria-live="polite">Hazır</div>
-    </header>
+    <header><h1>Esperanto–Türkçe Sözlük</h1></header>
 
-    <section class="card" role="region" aria-label="Sözlük tablosu">
-      <div class="controls" id="controls">
-        <label class="field" aria-label="Ara">
+    <section class="card">
+      <div class="controls">
+        <label class="field">
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M21 20.3L16.7 16a7.5 7.5 0 10-.7.7L20.3 21zM10.5 17a6.5 6.5 0 110-13 6.5 6.5 0 010 13z"/></svg>
-          <input id="q" type="search" placeholder="Ara (kelime, ipucu, tanım)..." autocomplete="off" />
+          <input id="q" type="search" placeholder="Ara..." autocomplete="off" />
         </label>
         <div class="counter" id="counter">0 kayıt</div>
       </div>
 
-      <div class="table-wrap" id="tableWrap">
-        <table id="dict" aria-describedby="tableHelp">
+      <div class="table-wrap">
+        <table id="dict">
           <thead><tr id="headRow"></tr></thead>
           <tbody id="bodyRows"></tbody>
         </table>
       </div>
     </section>
-
-    <footer id="tableHelp">
-      CSV yolu varsayılan olarak <code>data.csv</code>. İstersen
-      <code>?csv=dosya.csv</code> parametresiyle farklı bir dosya yükleyebilirsin.
-    </footer>
   </div>
 
   <script>
-    // --- Yardımcılar ---
-    const qs = (sel, el=document) => el.querySelector(sel);
-    const qsa = (sel, el=document) => [...el.querySelectorAll(sel)];
-    const by = (k) => (a,b) => (a[k] > b[k]) - (a[k] < b[k]);
+    const qs = (s,el=document)=>el.querySelector(s);
+    const qsa = (s,el=document)=>[...el.querySelectorAll(s)];
+    const CSV_URL = 'data.csv';
 
-    const params = new URLSearchParams(location.search);
-    const CSV_URL = params.get('csv') || 'data.csv';
-
-    // Sağlam CSV ayrıştırıcı (tırnak içi virgül/çift tırnak destekli)
     function parseCSV(text){
-      const rows = [];
-      let row = [], cell = '', inQuotes = false;
-      for (let i=0;i<text.length;i++){
-        const c = text[i], n = text[i+1];
-        if (inQuotes){
-          if (c === '"' && n === '"'){ cell += '"'; i++; }
-          else if (c === '"'){ inQuotes = false; }
-          else { cell += c; }
-        } else {
-          if (c === '"'){ inQuotes = true; }
-          else if (c === ','){ row.push(cell); cell = ''; }
-          else if (c === '\n'){ row.push(cell); rows.push(row); row=[]; cell=''; }
-          else if (c === '\r'){ /* yoksay */ }
-          else { cell += c; }
+      const rows=[];let row=[],cell='',inQuotes=false;
+      for(let i=0;i<text.length;i++){
+        const c=text[i],n=text[i+1];
+        if(inQuotes){
+          if(c==='"'&&n==='"'){cell+='"';i++;}
+          else if(c==='"'){inQuotes=false;}
+          else{cell+=c;}
+        }else{
+          if(c==='"'){inQuotes=true;}
+          else if(c===','){row.push(cell);cell='';}
+          else if(c==='\n'){row.push(cell);rows.push(row);row=[];cell='';}
+          else if(c==='\r'){}
+          else{cell+=c;}
         }
       }
-      if (cell.length || row.length) { row.push(cell); rows.push(row); }
-      const headers = rows.shift() || [];
-      return { headers, rows };
+      if(cell.length||row.length){row.push(cell);rows.push(row);}
+      const headers=rows.shift()||[];
+      return {headers,rows};
     }
 
-    function highlight(text, query){
-      if (!query) return text;
-      const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      return text.replace(new RegExp(esc, 'gi'), m => `<mark>${m}</mark>`);
+    function highlight(text,q){
+      if(!q)return text;
+      const esc=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      return text.replace(new RegExp(esc,'gi'),m=>`<mark>${m}</mark>`);
     }
 
-    // --- Render ---
-    let state = {
-      headers: [],
-      rows: [],
-      filtered: [],
-      sortKey: null,
-      sortDir: 1  // 1 asc, -1 desc
-    };
+    let state={headers:[],rows:[],filtered:[],sortKey:null,sortDir:1};
 
     function renderHead(){
-      const headRow = qs('#headRow');
-      headRow.innerHTML = '';
-      state.headers.forEach((h, idx) => {
-        const th = document.createElement('th');
-        th.setAttribute('role','columnheader');
-        th.innerHTML = `<span>${h}</span> <span class="sort" aria-hidden="true">↕</span>`;
-        th.onclick = () => sortBy(idx);
-        headRow.appendChild(th);
+      const head=qs('#headRow');head.innerHTML='';
+      state.headers.forEach((h,i)=>{
+        const th=document.createElement('th');
+        th.innerHTML=`<span>${h}</span> <span class="sort">↕</span>`;
+        th.onclick=()=>sortBy(i);
+        head.appendChild(th);
       });
     }
 
     function renderBody(){
-      const tb = qs('#bodyRows');
-      const query = qs('#q').value.trim();
-      tb.innerHTML = '';
-      const frag = document.createDocumentFragment();
+      const tb=qs('#bodyRows');
+      const q=qs('#q').value.trim();
+      tb.innerHTML='';
+      const frag=document.createDocumentFragment();
       state.filtered.forEach(r=>{
-        const tr = document.createElement('tr');
-        r.forEach(cell=>{
-          const td = document.createElement('td');
-          td.innerHTML = highlight(String(cell ?? ''), query);
+        const tr=document.createElement('tr');
+        r.forEach(c=>{
+          const td=document.createElement('td');
+          td.innerHTML=highlight(String(c??''),q);
           tr.appendChild(td);
         });
         frag.appendChild(tr);
       });
       tb.appendChild(frag);
-      qs('#counter').textContent = `${state.filtered.length} kayıt`;
+      qs('#counter').textContent=`${state.filtered.length} kayıt`;
     }
 
     function applyFilter(){
-      const q = qs('#q').value.toLowerCase().trim();
-      if (!q){
-        state.filtered = [...state.rows];
-      }else{
-        state.filtered = state.rows.filter(r =>
-          r.some(c => String(c).toLowerCase().includes(q))
-        );
-      }
-      // aktif bir sıralama varsa koru
-      if (state.sortKey != null){
-        state.filtered.sort((a,b)=>{
-          const A = String(a[state.sortKey] ?? '').toLowerCase();
-          const B = String(b[state.sortKey] ?? '').toLowerCase();
-          return state.sortDir * ((A > B) - (A < B));
-        });
-      }
+      const q=qs('#q').value.toLowerCase().trim();
+      state.filtered = !q ? [...state.rows] :
+        state.rows.filter(r=>r.some(c=>String(c).toLowerCase().includes(q)));
+      if(state.sortKey!=null){sortBy(state.sortKey,true);}
       renderBody();
     }
 
-    function sortBy(idx){
-      if (state.sortKey === idx){ state.sortDir *= -1; }
-      else { state.sortKey = idx; state.sortDir = 1; }
+    function sortBy(i,keep=false){
+      if(!keep){
+        state.sortDir = (state.sortKey===i? -state.sortDir:1);
+        state.sortKey=i;
+      }
       state.filtered.sort((a,b)=>{
-        const A = String(a[idx] ?? '').toLowerCase();
-        const B = String(b[idx] ?? '').toLowerCase();
-        return state.sortDir * ((A > B) - (A < B));
+        const A=String(a[i]??'').toLowerCase();
+        const B=String(b[i]??'').toLowerCase();
+        return state.sortDir*((A>B)-(A<B));
       });
-      // Görsel ipucu
-      qsa('thead th .sort').forEach((el,i)=>{
-        el.textContent = i===idx ? (state.sortDir===1 ? '↑' : '↓') : '↕';
+      qsa('thead th .sort').forEach((el,j)=>{
+        el.textContent=j===i?(state.sortDir===1?'↑':'↓'):'↕';
       });
       renderBody();
     }
 
-    // Basit debounce
-    function debounce(fn, ms=200){
-      let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), ms); };
-    }
-
-    async function boot(){
-      const badge = qs('#status-badge');
-      badge.textContent = 'Yükleniyor…';
+    (async()=>{
       try{
-        const resp = await fetch(CSV_URL, {cache:'no-store'});
-        if (!resp.ok) throw new Error(`CSV yüklenemedi (${resp.status})`);
-        const text = (await resp.text()).replace(/^\uFEFF/, '');
-        const {headers, rows} = parseCSV(text);
-
-        state.headers = headers.length ? headers : ['Word','Clue','Definition'];
-        state.rows = rows;
-        state.filtered = [...rows];
-
+        const text=(await fetch(CSV_URL)).text?await(await fetch(CSV_URL)).text():''; 
+        const parsed=parseCSV(text.replace(/^\uFEFF/,''));
+        state.headers=parsed.headers;
+        state.rows=parsed.rows;
+        state.filtered=[...state.rows];
         renderHead();
         renderBody();
-
-        badge.textContent = 'Hazır';
-      }catch(err){
-        badge.textContent = 'Hata';
-        qs('#tableWrap').innerHTML =
-          `<div style="padding:16px">
-            <strong>Hata:</strong> ${err.message}<br>
-            <div class="muted" style="margin-top:6px">
-              Lütfen <code>index.html</code> ile <code>${CSV_URL}</code> aynı klasörde olsun
-              ve bir sunucu üzerinden açın (ör. <code>python3 -m http.server 8000</code>).
-            </div>
-          </div>`;
+      }catch(e){
+        qs('#bodyRows').innerHTML=`<tr><td>Hata: ${e.message}</td></tr>`;
       }
-    }
-
-    qs('#q').addEventListener('input', debounce(applyFilter, 120));
-    boot();
+    })();
+    qs('#q').addEventListener('input',()=>applyFilter());
   </script>
 </body>
 </html>
