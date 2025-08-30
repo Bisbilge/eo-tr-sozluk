@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sözlük • Gsu Esperanto Kulubo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner container">
+      <a class="brand" href="index.html">
+        <img src="logo.png" alt="Gsu Esperanto Kulubo logosu" onerror="this.style.display='none'">
+        <span class="title">Gsu Esperanto Kulubo</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Anasayfa</a>
+        <a href="sozluk.html" class="active">Sözlük</a>
+        <a href="gramer.html">Gramer</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <div class="controls">
+        <label class="field" style="flex:2">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M21 20.3L16.7 16a7.5 7.5 0 10-.7.7L20.3 21zM10.5 17a6.5 6.5 0 110-13 6.5 6.5 0 010 13z"/></svg>
+          <input id="q" type="search" placeholder="Sözlükte ara..." autocomplete="off" />
+        </label>
+        <div class="counter" id="counter">0 kayıt</div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="dict" aria-describedby="dict-help">
+          <thead><tr id="headRow"></tr></thead>
+          <tbody id="bodyRows"></tbody>
+        </table>
+      </div>
+      <div class="section small" id="dict-help">
+        CSV sırası: <em>eo, tr, sözcük_türü, örnek_eo, örnek_tr</em>. Aynı klasördeki <code>data.csv</code> dosyası yüklenir.
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © <span id="yil"></span> Gsu Esperanto Kulubo • gsuesperanto.org
+  </footer>
+
+  <script type="module">
+    import { initDict } from './dict.js';
+    document.getElementById('yil').textContent = new Date().getFullYear();
+    initDict();
+  </script>
+</body>
+</html>
