@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Esperanto–Türkçe Sözlük (10 kelime)</title>
+  <style>
+    :root { --gap: 12px; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Noto Sans', Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      line-height: 1.5;
+    }
+    h1 { margin: 0 0 1rem; font-size: 1.4rem; }
+    p.hint { margin: 0 0 1rem; color: #555; }
+    .table-wrap { overflow-x: auto; border: 1px solid #ddd; border-radius: 8px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    thead th {
+      text-align: left;
+      background: #f6f6f6;
+      border-bottom: 1px solid #ddd;
+      padding: 0.6rem 0.8rem;
+      white-space: nowrap;
+    }
+    tbody td {
+      border-top: 1px solid #eee;
+      padding: 0.6rem 0.8rem;
+      vertical-align: top;
+    }
+    tbody tr:nth-child(odd) td { background: #fafafa; }
+    code { background: #f4f4f4; padding: 0.1rem 0.3rem; border-radius: 4px; }
+    footer { margin-top: 1.25rem; color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>Esperanto–Türkçe Sözlük</h1>
+
+  <div class="table-wrap">
+    <table id="dict-table" aria-describedby="table-help">
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+
+  <script>
+    async function loadCSV(url) {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error('CSV yüklenemedi: ' + resp.status);
+      const text = await resp.text();
+      return text;
+    }
+
+    // Basit CSV ayrıştırıcı (virgül içermeyen alanlar için yeterli)
+    function parseCSV(text) {
+      const lines = text.replace(/^\uFEFF/, '').trim().split(/\r?\n/);
+      const headers = lines[0].split(',');
+      const rows = lines.slice(1).map(line => line.split(','));
+      return { headers, rows };
+    }
+
+    function renderTable({ headers, rows }) {
+      const thead = document.querySelector('#dict-table thead');
+      const tbody = document.querySelector('#dict-table tbody');
+
+      // Başlıklar
+      const trHead = document.createElement('tr');
+      headers.forEach(h => {
+        const th = document.createElement('th');
+        th.textContent = h;
+        trHead.appendChild(th);
+      });
+      thead.appendChild(trHead);
+
+      // Satırlar
+      rows.forEach(r => {
+        const tr = document.createElement('tr');
+        r.forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+
+    (async () => {
+      try {
+        const text = await loadCSV('data.csv');
+        const parsed = parseCSV(text);
+        renderTable(parsed);
+      } catch (err) {
+        const wrap = document.querySelector('.table-wrap');
+        wrap.innerHTML = '<p style="padding:1rem">Hata: ' + err.message + '<br/>Lütfen <code>index.html</code> ve <code>data.csv</code> aynı klasörde olsun ve bir yerel sunucu üzerinden açın (örn. <code>python3 -m http.server 8000</code>).</p>';
+      }
+    })();
+  </script>
+</body>
+</html>
