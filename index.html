@@ -9,9 +9,11 @@
 </head>
 <body>
   <header class="header">
-    <div class="header-inner container">
+    <div class="header-inner">
       <a class="brand" href="index.html">
-        <img src="logo.png" alt="Gsu Esperanto Klubo logosu" onerror="this.style.display='none'">
+        <span class="badge">
+          <img src="logo.png" alt="" onerror="this.remove();this.closest('.badge').insertAdjacentHTML('afterbegin','<span class=star></span>')">
+        </span>
         <span class="title">Gsu Esperanto Klubo</span>
       </a>
       <nav class="nav">
@@ -22,31 +24,29 @@
     </div>
   </header>
 
-  <main class="container">
+  <main class="container grid">
     <section class="card hero">
-      <h1>Saluton! / Merhaba!</h1>
-      <p>Gsu Esperanto Klubo’nun resmi sayfasına hoş geldiniz. Burada kulüp duyurularını, kaynakları ve hazırladığımız <strong>Esperanto–Türkçe sözlüğü</strong> bulabilirsiniz.</p>
+      <h1>Saluton! Merhaba! <span aria-hidden="true">★</span></h1>
+      <p>Gsu Esperanto Klubo’nun resmi sayfasına hoş geldiniz. Burada kulüp duyuruları, kaynaklar ve <strong>Esperanto–Türkçe sözlük</strong> yer alır.</p>
     </section>
 
-    <section class="card section">
+    <section class="card pad section">
       <h2>Başlarken</h2>
-      <p class="small">Hızlı bağlantılar:</p>
-      <ul>
-        <li><a href="sozluk.html"><strong>Esperanto–Türkçe Sözlük</strong></a> — arama, sıralama, filtreleme.</li>
-        <li><a href="gramer.html"><strong>Gramer notları</strong></a> — temel kurallar ve kısa özetler.</li>
+      <ul class="list">
+        <li><a href="sozluk.html"><strong>Esperanto–Türkçe Sözlük</strong></a> — canlı arama, sıralama, filtrelemeye hazır yapı.</li>
+        <li><a href="gramer.html"><strong>Gramer notları</strong></a> — alfabe, ekler ve temel zamanlar.</li>
       </ul>
     </section>
 
-    <section class="card section">
-      <h2>Kulüp hakkında</h2>
-      <p>Gsu Esperanto Klubo, öğrenciler tarafından yürütülen gönüllü bir topluluktur. Amacımız, Esperanto’nun kültürünü tanıtmak, yeni öğrenenlere destek olmak ve Türkçe kaynaklar üretmektir.</p>
+    <section class="card pad section">
+      <h2>Hakkımızda</h2>
+      <p>Gsu Esperanto Klubo, öğrencilerin yürüttüğü gönüllü bir topluluktur. Amacımız, Esperanto kültürünü tanıtmak, yeni öğrenenlere destek olmak ve Türkçe içerik üretmektir.</p>
     </section>
   </main>
 
   <footer class="footer">
     © <span id="yil"></span> Gsu Esperanto Klubo • gsuesperanto.org
   </footer>
-
   <script>document.getElementById('yil').textContent = new Date().getFullYear();</script>
 </body>
 </html>
